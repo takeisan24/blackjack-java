@@ -1,7 +1,7 @@
-# Blackjack Java
+# [Blackjack Java](https://github.com/takeisan24/blackjack-java)
 
 > This is the Blackjack game based on java.awt & java.swing 
-[Repository-link](https://github.com/takeisan24/blackjack-java)
+
 ## Getting Started
 
 **Hi, my name is Takei, this is the Blackjack game i do for my study project so you can chill for cloning them to build more thing you want to do. I will update more so  GG! GLHF <333**
@@ -21,5 +21,3 @@ The folder contains:
 **If you have any problem about this repo, you can contact me through any social platforms in this link:**
 
 > [Information](https://bio.link/takeisan204)
-
-**Copyright 2024 Takei Yasuko**
