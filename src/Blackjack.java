@@ -69,7 +69,7 @@ public class Blackjack {
 
     //! Create frame using JFrame
     JFrame frame = new JFrame("Play Blackjack");
-    JFrame help = new JFrame("Hướng dẫn cách chơi Blackjack");
+    JFrame help = new JFrame("How to play Blackjack");
     //! Panel
     JPanel gamePanel = new JPanel() {
         @Override
@@ -148,9 +148,9 @@ public class Blackjack {
     JPanel buttonPanel = new JPanel();
     JPanel MenuPanel = new JPanel();
     JPanel HelpPanel = new JPanel();
-    JButton newGame = new JButton("New Game");
-    JButton hitButton = new JButton("Kéo");
-    JButton stayButton = new JButton("Dằn");
+    JButton newGame = new JButton("New game");
+    JButton hitButton = new JButton("Hit");
+    JButton stayButton = new JButton("Stay");
     JButton helpButton = new JButton("Help");
 
     //Constructor

@@ -1,18 +1,25 @@
+# Blackjack Java
+
+> This is the Blackjack game based on java.awt & java.swing 
+[Repository-link](https://github.com/takeisan24/blackjack-java)
 ## Getting Started
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+**Hi, my name is Takei, this is the Blackjack game i do for my study project so you can chill for cloning them to build more thing you want to do. I will update more so  GG! GLHF <333**
 
 ## Folder Structure
 
-The workspace contains two folders by default, where:
+The folder contains:
 
 - `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- In `src`, you have `cards` assets and `App.java` to run game and `Blackjack.java` to handle dealer cards, player card, etc..
+- The compiled output files will be generated in the `bin` folder.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## Game Rules
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## Information 
 
-## Dependency Management
+**If you have any problem about this repo, you can contact me through any social platforms in this link:**
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+> [Information](https://bio.link/takeisan204)
+
+**Copyright 2024 Takei Yasuko**
