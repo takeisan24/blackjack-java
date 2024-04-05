@@ -253,11 +253,11 @@ public class Blackjack {
         dealerAceCount += card.isAce() ? 1 : 0;
         dealerHand.add(card);
 
-        System.out.println("DEALER:");
-        System.out.println(hiddenCard);
-        System.out.println(dealerHand);
-        System.out.println(dealerSum);
-        System.out.println(dealerAceCount);
+        //System.out.println("DEALER:");
+        //System.out.println(hiddenCard);
+        //System.out.println(dealerHand);
+        //System.out.println(dealerSum);
+        //System.out.println(dealerAceCount);
 
         //! Player
         playerHand = new ArrayList<Card>();
@@ -270,10 +270,10 @@ public class Blackjack {
             playerHand.add(card);
         }
 
-        System.out.println("PLAYER:");
-        System.out.println(playerHand);
-        System.out.println(playerSum);
-        System.out.println(playerAceCount);
+        //System.out.println("PLAYER:");
+        //System.out.println(playerHand);
+        //System.out.println(playerSum);
+        //System.out.println(playerAceCount);
 
     }
 
