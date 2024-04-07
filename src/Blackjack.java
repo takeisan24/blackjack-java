@@ -146,7 +146,6 @@ public class Blackjack {
         }
     };
     JPanel buttonPanel = new JPanel();
-    JPanel MenuPanel = new JPanel();
     JPanel HelpPanel = new JPanel();
     JButton newGame = new JButton("New game");
     JButton hitButton = new JButton("Hit");
@@ -159,7 +158,7 @@ public class Blackjack {
         
         frame.setVisible(true);
         frame.setSize(boardWidth, boardHeight);
-        frame.setLocation(0, 0);
+        frame.setLocation(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
