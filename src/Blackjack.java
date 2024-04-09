@@ -167,10 +167,9 @@ public class Blackjack {
     //JPanel HelpPanel = new JPanel();
     JButton playGame = new JButton("Play");
     JButton newGame = new JButton("New Game");
-    JButton hitButton = new JButton("Kéo");
-    JButton stayButton = new JButton("Dằn");
+    JButton hitButton = new JButton("Hit");
+    JButton stayButton = new JButton("Stay");
     JButton helpButton = new JButton("Help");
-    AdvancedPlayer player;
     //Constructor
     Blackjack(){
         
