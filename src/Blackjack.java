@@ -3,7 +3,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
-import java.io.*;
 
 public class Blackjack {
     //! Card Class
@@ -61,7 +60,7 @@ public class Blackjack {
 
     //! Window
     int boardWidth = 1000;
-    int boardHeight = 800;
+    int boardHeight = 650;
 
     int cardWidth = 110;
     int cardHeight = 154;
@@ -157,7 +156,7 @@ public class Blackjack {
 
                 g.setFont(new Font("Arial", Font.PLAIN, 30));
                 g.setColor(Color.WHITE);
-                g.drawString(message, 220, 250);
+                g.drawString(message, 500, 240);
             }
 
         }
