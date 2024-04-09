@@ -3,8 +3,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
-
-
+import java.io.*;
 
 public class Blackjack {
     //! Card Class
@@ -69,7 +68,7 @@ public class Blackjack {
 
     //! Create frame using JFrame
     JFrame frame = new JFrame("Play Blackjack");
-    JFrame help = new JFrame("How to play Blackjack");
+    //JFrame help = new JFrame("How to play Blackjack");
     //! Panel
     JPanel gamePanel = new JPanel() {
         @Override
@@ -90,6 +89,7 @@ public class Blackjack {
                 
 
                 //! Draw dealer's hand
+                
                 for(int i = 0; i < dealerHand.size(); i++){
                     Card card = dealerHand.get(i);
                     Image cardImg = new ImageIcon(getClass().getResource(card.getImagePath())).getImage();
@@ -146,16 +146,16 @@ public class Blackjack {
         }
     };
     JPanel buttonPanel = new JPanel();
-    JPanel HelpPanel = new JPanel();
+    JButton startGameButton = new JButton("Start");
     JButton newGame = new JButton("New game");
     JButton hitButton = new JButton("Hit");
     JButton stayButton = new JButton("Stay");
     JButton helpButton = new JButton("Help");
-
+    AdvancedPlayer player;
     //Constructor
     Blackjack(){
         startGame();
-        
+
         frame.setVisible(true);
         frame.setSize(boardWidth, boardHeight);
         frame.setLocation(null);
@@ -199,7 +199,6 @@ public class Blackjack {
                     hitButton.setEnabled(false);
                 }
 
-        
                 gamePanel.repaint();
             }
         });
