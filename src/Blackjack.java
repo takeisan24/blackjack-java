@@ -60,16 +60,33 @@ public class Blackjack {
     int playerAceCount;
 
     //! Window
-    int boardWidth = 600;
-    int boardHeight = 650;
+    int boardWidth = 1000;
+    int boardHeight = 800;
 
     int cardWidth = 110;
     int cardHeight = 154;
 
     //! Create frame using JFrame
     JFrame frame = new JFrame("Play Blackjack");
-    //JFrame help = new JFrame("How to play Blackjack");
+    JFrame help = new JFrame("Hướng dẫn cách chơi Blackjack");
     //! Panel
+    JPanel startPanel = new JPanel() {
+        @Override
+        public void paintComponent(Graphics g){
+            super.paintComponent(g);
+            try{
+                Image JackCard = new ImageIcon(getClass().getResource("./cards/J-D.png")).getImage();
+                Image AceCard = new ImageIcon(getClass().getResource("./cards/A-S.png")).getImage();
+                g.drawImage(AceCard, 360, 320, cardWidth, cardHeight, null );
+                g.drawImage(JackCard, 500, 320, cardWidth, cardHeight, null );
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            g.setFont(new Font("Arial", Font.BOLD, 40));
+            g.setColor(Color.WHITE);
+            g.drawString("Blackjack Game", 327, 259);
+        }
+    };
     JPanel gamePanel = new JPanel() {
         @Override
         public void paintComponent(Graphics g) {
@@ -146,40 +163,39 @@ public class Blackjack {
         }
     };
     JPanel buttonPanel = new JPanel();
-    JButton startGameButton = new JButton("Start");
-    JButton newGame = new JButton("New game");
-    JButton hitButton = new JButton("Hit");
-    JButton stayButton = new JButton("Stay");
+    JPanel playPanel = new JPanel();
+    //JPanel HelpPanel = new JPanel();
+    JButton playGame = new JButton("Play");
+    JButton newGame = new JButton("New Game");
+    JButton hitButton = new JButton("Kéo");
+    JButton stayButton = new JButton("Dằn");
     JButton helpButton = new JButton("Help");
     AdvancedPlayer player;
     //Constructor
     Blackjack(){
-        startGame();
-
+        
+        //startGame();
+        
         frame.setVisible(true);
         frame.setSize(boardWidth, boardHeight);
-        frame.setLocation(null);
+        frame.setLocation(0, 0);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        gamePanel.setLayout(new BorderLayout());
-        gamePanel.setBackground(new Color(53, 101, 77));
-        frame.add(gamePanel);
+        startPanel.setLayout(new BorderLayout());
+        startPanel.setBackground(new Color(53, 101, 77));
+        frame.add(startPanel);
         
-        newGame.setFocusable(false);
-        newGame.setEnabled(false);
-        buttonPanel.add(newGame);
-        hitButton.setFocusable(false);
-        buttonPanel.add(hitButton);
-        stayButton.setFocusable(false);
-        buttonPanel.add(stayButton);
-        frame.add(buttonPanel, BorderLayout.SOUTH);
-
+        playGame.setFocusable(false);
+        playGame.setEnabled(true);
+        playPanel.add(playGame);
         helpButton.setFocusable(false);
-        buttonPanel.add(helpButton);
-
+        helpButton.setEnabled(true);
+        playPanel.add(helpButton);
+        startPanel.add(playPanel, BorderLayout.SOUTH);
+        
+        
         newGame.addActionListener(new ActionListener(){
-            @Override
             public void actionPerformed(ActionEvent e){
                 hitButton.setEnabled(true);
                 stayButton.setEnabled(true);
@@ -187,7 +203,48 @@ public class Blackjack {
                 gamePanel.repaint();
             }
         });
-        
+
+        playGame.addMouseListener(new MouseListener(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                int x = e.getX();
+                int y = e.getY();
+                System.out.println(x);
+                System.out.println(y);
+                if(x <= 60 && y <=30){
+                    startGame();
+                    startPanel.setVisible(false);
+                    playGame.setVisible(false);
+                    newGame.setFocusable(false);
+                    newGame.setEnabled(false);
+                    buttonPanel.add(newGame);
+                    hitButton.setFocusable(false);
+                    buttonPanel.add(hitButton);
+                    stayButton.setFocusable(false);
+                    buttonPanel.add(stayButton);
+                    frame.add(buttonPanel, BorderLayout.SOUTH);
+                    
+                    gamePanel.setLayout(new BorderLayout());
+                    gamePanel.setBackground(new Color(53, 101, 77));
+                    frame.add(gamePanel);
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
         hitButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 Card card = deck.remove(deck.size()-1);
