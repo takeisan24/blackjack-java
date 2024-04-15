@@ -19,7 +19,7 @@ public class Blackjack {
         public String toString(){
             return value + "-" + type;
         }
-
+        //! Hàm lấy giá trị của bài 
         public int getValue(){
             if("AJQK".contains(value)){ //* value from A, J, Q, K */
                 if(value == "A"){
@@ -29,12 +29,12 @@ public class Blackjack {
             }
             return Integer.parseInt(value); //* value from 2 - 10 */
         }
-
+        //! Hàm kiểm tra lá bài có phải lá A hay không
         public boolean isAce(){
             return value == "A";
         }
 
-
+        //! Hàm lấy đường dẫn tương đối của ảnh
         public String getImagePath(){
             return "./cards/" + toString() + ".png";
         }
@@ -50,25 +50,25 @@ public class Blackjack {
     //! Dealer Card
     Card hiddenCard;
     ArrayList<Card> dealerHand;
-    int dealerSum;
-    int dealerAceCount;
+    private int dealerSum;
+    private int dealerAceCount;
 
     //! Player Card
     ArrayList<Card> playerHand;
-    int playerSum;
-    int playerAceCount;
+    private int playerSum;
+    private int playerAceCount;
 
     //! Window
-    int boardWidth = 1000;
-    int boardHeight = 650;
+    public static final int boardWidth = 1000;
+    public static final int boardHeight = 650;
 
-    int cardWidth = 110;
-    int cardHeight = 154;
+    //! Image Sizes
+    public static final int cardWidth = 110;
+    public static final int cardHeight = 154;
 
-    //! Create frame using JFrame
+    //! Create frame using JFrame object
     JFrame frame = new JFrame("Play Blackjack");
-    JFrame help = new JFrame("Hướng dẫn cách chơi Blackjack");
-    //! Panel
+    //! Panel Drawing
     JPanel startPanel = new JPanel() {
         @Override
         public void paintComponent(Graphics g){
@@ -129,9 +129,9 @@ public class Blackjack {
             if(!stayButton.isEnabled()){
                 dealerSum = reduceDealerAce();
                 playerSum = reducePlayerAce();
-                System.out.println("STAY:");
-                System.out.println(dealerSum);
-                System.out.println(playerSum);
+                // System.out.println("STAY:");
+                // System.out.println(dealerSum);
+                // System.out.println(playerSum);
 
                 String message = "";
                 if(playerSum > 21 && dealerSum > 21){
@@ -163,12 +163,10 @@ public class Blackjack {
     };
     JPanel buttonPanel = new JPanel();
     JPanel playPanel = new JPanel();
-    //JPanel HelpPanel = new JPanel();
     JButton playGame = new JButton("Play");
     JButton newGame = new JButton("New Game");
     JButton hitButton = new JButton("Hit");
     JButton stayButton = new JButton("Stay");
-    JButton helpButton = new JButton("Help");
     //Constructor
     Blackjack(){
         
@@ -187,9 +185,6 @@ public class Blackjack {
         playGame.setFocusable(false);
         playGame.setEnabled(true);
         playPanel.add(playGame);
-        helpButton.setFocusable(false);
-        helpButton.setEnabled(true);
-        playPanel.add(helpButton);
         startPanel.add(playPanel, BorderLayout.SOUTH);
         
         
@@ -202,45 +197,29 @@ public class Blackjack {
             }
         });
 
-        playGame.addMouseListener(new MouseListener(){
+        playGame.addActionListener(new ActionListener(){
             @Override
-            public void mouseClicked(MouseEvent e){
-                int x = e.getX();
-                int y = e.getY();
-                System.out.println(x);
-                System.out.println(y);
-                if(x <= 60 && y <=30){
-                    startGame();
-                    startPanel.setVisible(false);
-                    playGame.setVisible(false);
-                    newGame.setFocusable(false);
-                    newGame.setEnabled(false);
-                    buttonPanel.add(newGame);
-                    hitButton.setFocusable(false);
-                    buttonPanel.add(hitButton);
-                    stayButton.setFocusable(false);
-                    buttonPanel.add(stayButton);
-                    frame.add(buttonPanel, BorderLayout.SOUTH);
+            public void actionPerformed(ActionEvent e){
+                startGame();
+                startPanel.setVisible(false);
+                playGame.setVisible(false);
+                newGame.setFocusable(false);
+                newGame.setEnabled(false);
+                newGame.setBackground(Color.gray);
+                buttonPanel.add(newGame);
+                hitButton.setFocusable(false);
+                hitButton.setBackground(Color.green);
+                buttonPanel.add(hitButton);
+                stayButton.setFocusable(false);
+                stayButton.setBackground(Color.red);
+                buttonPanel.add(stayButton);
+                frame.add(buttonPanel, BorderLayout.SOUTH);
                     
-                    gamePanel.setLayout(new BorderLayout());
-                    gamePanel.setBackground(new Color(53, 101, 77));
-                    frame.add(gamePanel);
-                }
-            }
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
+                gamePanel.setLayout(new BorderLayout());
+                gamePanel.setBackground(new Color(53, 101, 77));
+                frame.add(gamePanel);
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
+                frame.repaint();
             }
         });
         hitButton.addActionListener(new ActionListener(){
@@ -248,7 +227,7 @@ public class Blackjack {
                 Card card = deck.remove(deck.size()-1);
                 playerSum += card.getValue();
                 playerAceCount += card.isAce() ? 1 : 0;
-                System.out.println(playerSum);
+                // System.out.println(playerSum);
                 playerHand.add(card);
                 if(reducePlayerAce() > 21){
                     hitButton.setEnabled(false);
@@ -270,16 +249,6 @@ public class Blackjack {
                     dealerHand.add(card);
                 }
                 gamePanel.repaint();
-            }
-        });
-
-        helpButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                help.setVisible(true);
-                help.setSize(boardWidth, boardHeight);
-                help.setLocationRelativeTo(null);
-                help.setResizable(true);
-                help.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
             }
         });
 
@@ -306,11 +275,11 @@ public class Blackjack {
         dealerAceCount += card.isAce() ? 1 : 0;
         dealerHand.add(card);
 
-        System.out.println("DEALER:");
-        System.out.println(hiddenCard);
-        System.out.println(dealerHand);
-        System.out.println(dealerSum);
-        System.out.println(dealerAceCount);
+        // System.out.println("DEALER:");
+        // System.out.println(hiddenCard);
+        // System.out.println(dealerHand);
+        // System.out.println(dealerSum);
+        // System.out.println(dealerAceCount);
 
         //! Player
         playerHand = new ArrayList<Card>();
@@ -323,10 +292,10 @@ public class Blackjack {
             playerHand.add(card);
         }
 
-        System.out.println("PLAYER:");
-        System.out.println(playerHand);
-        System.out.println(playerSum);
-        System.out.println(playerAceCount);
+        // System.out.println("PLAYER:");
+        // System.out.println(playerHand);
+        // System.out.println(playerSum);
+        // System.out.println(playerAceCount);
 
     }
 
@@ -348,8 +317,8 @@ public class Blackjack {
             }
         }
 
-        System.out.println("BUILD DECK:");
-        System.out.println(deck);
+        // System.out.println("BUILD DECK:");
+        // System.out.println(deck);
     }
     public void shuffleDeck(){
         for(int i = 0; i < deck.size(); i++){
@@ -360,8 +329,8 @@ public class Blackjack {
             deck.set(j, currentCard);
         }
 
-        System.out.println("AFTER SHUFFLE:");
-        System.out.println(deck);
+        // System.out.println("AFTER SHUFFLE:");
+        // System.out.println(deck);
     }
 
     public int reducePlayerAce(){
