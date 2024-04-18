@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
+import javazoom.jl.player.advanced.*;
 
 public class Blackjack {
     //! Card Class
@@ -134,65 +135,40 @@ public class Blackjack {
                 // System.out.println(playerSum);
 
                 String message = "";
-                if(playerSum > 21 && dealerSum > 21){
-                    message = "You and Dealer both bust!";
-                }
-                else if(dealerSum > 21){
-                    message = "You Win!";
-                }
-                else if(playerSum > 21){
-                    message = "You Lose!";
-                }
-                else if(playerSum == dealerSum){
-                    message = "Tie!";
-                }
-                else if (playerSum > dealerSum) {
-                    message = "You Win!";
-                }
-                else if(playerSum < dealerSum){
-                    message = "You Lose!";
-                }
-                
-
                 g.setFont(new Font("Arial", Font.PLAIN, 30));
                 g.setColor(Color.WHITE);
-                g.drawString(message, 500, 240);
+                g.drawString(MessageSend(message, playerSum, dealerSum), 500, 240);
             }
 
         }
     };
     JPanel buttonPanel = new JPanel();
     JPanel playPanel = new JPanel();
+    //! JButton objects
     JButton playGame = new JButton("Play");
     JButton newGame = new JButton("New Game");
     JButton hitButton = new JButton("Hit");
     JButton stayButton = new JButton("Stay");
+    JButton closeGame = new JButton("Close");
+    //! MP3 Player
+    Sound flip = new Sound();
+    Sound BGM = new Sound(); 
+    private AdvancedPlayer bgm ;
+    private AdvancedPlayer player;
     //Constructor
-    Blackjack(){
+    public Blackjack(){
         
-        //startGame();
-        
-        frame.setVisible(true);
-        frame.setSize(boardWidth, boardHeight);
-        frame.setLocation(0, 0);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        startPanel.setLayout(new BorderLayout());
-        startPanel.setBackground(new Color(53, 101, 77));
-        frame.add(startPanel);
-        
-        playGame.setFocusable(false);
-        playGame.setEnabled(true);
-        playPanel.add(playGame);
-        startPanel.add(playPanel, BorderLayout.SOUTH);
-        
+        startFrame();
         
         newGame.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                flip.playSound(player, "./sounds/flipcard-91468.mp3");
+                
                 hitButton.setEnabled(true);
                 stayButton.setEnabled(true);
+
                 startGame();
+
                 gamePanel.repaint();
             }
         });
@@ -201,20 +177,35 @@ public class Blackjack {
             @Override
             public void actionPerformed(ActionEvent e){
                 startGame();
+                flip.playSound(player, "./sounds/flipcard-91468.mp3"); 
+                // bgmusic.playSound(player, "./sounds/background-music.mp3");
+                
                 startPanel.setVisible(false);
                 playGame.setVisible(false);
+
                 newGame.setFocusable(false);
                 newGame.setEnabled(false);
                 newGame.setBackground(Color.gray);
+                newGame.setForeground(Color.white);
                 buttonPanel.add(newGame);
+
                 hitButton.setFocusable(false);
                 hitButton.setBackground(Color.green);
+                hitButton.setForeground(Color.white);
                 buttonPanel.add(hitButton);
+
                 stayButton.setFocusable(false);
                 stayButton.setBackground(Color.red);
+                stayButton.setForeground(Color.white);
                 buttonPanel.add(stayButton);
+
+                closeGame.setFocusable(false);
+                closeGame.setEnabled(true);
+                buttonPanel.add(closeGame);
+
+                buttonPanel.setBackground(new Color(53, 101, 77));
                 frame.add(buttonPanel, BorderLayout.SOUTH);
-                    
+                
                 gamePanel.setLayout(new BorderLayout());
                 gamePanel.setBackground(new Color(53, 101, 77));
                 frame.add(gamePanel);
@@ -224,6 +215,7 @@ public class Blackjack {
         });
         hitButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
+                flip.playSound(player, "./sounds/flipcard-91468.mp3");
                 Card card = deck.remove(deck.size()-1);
                 playerSum += card.getValue();
                 playerAceCount += card.isAce() ? 1 : 0;
@@ -239,23 +231,92 @@ public class Blackjack {
 
         stayButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
+                flip.playSound(player, "./sounds/flipcard-91468.mp3");
                 hitButton.setEnabled(false);
                 stayButton.setEnabled(false);
                 newGame.setEnabled(true);
+
                 while(dealerSum < 17){
                     Card card = deck.remove(deck.size()-1);
                     dealerSum += card.getValue();
                     dealerAceCount += card.isAce() ? 1 : 0;
                     dealerHand.add(card);
                 }
+
                 gamePanel.repaint();
+            }
+        });
+
+        closeGame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+
+                int ret = JOptionPane.showConfirmDialog(null, "Bạn muốn thoát game ?", "Thoát", JOptionPane.YES_NO_OPTION);
+                if(ret == JOptionPane.YES_OPTION){
+                    System.exit(0);
+                }
             }
         });
 
         gamePanel.repaint();
     }
 
-    //Game Method
+    // private void playSound(String filePath){
+    //     try {
+    //         if (player != null) {
+    //             player.close();
+    //         }
+    //         player = new AdvancedPlayer(getClass().getResourceAsStream(filePath));
+    //         player.play();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+
+    public String MessageSend(String message, int player, int dealer){
+        String msg = "";
+        if(player > 21 && dealer > 21){
+                    msg = "You and Dealer both bust!";
+                }
+                else if(dealer > 21){
+                    msg = "You Win!";
+                }
+                else if(player > 21){
+                    msg = "You Lose!";
+                }
+                else if(player == dealer){
+                    msg = "Tie!";
+                }
+                else if (player > dealer) {
+                    msg = "You Win!";
+                }
+                else if(player < dealer){
+                    msg = "You Lose!";
+                }
+        return msg;        
+    }
+
+    //! Build frame methods
+    public void startFrame(){
+        frame.setVisible(true);
+        frame.setSize(boardWidth, boardHeight);
+        frame.setLocation(0, 0);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        startPanel.setLayout(new BorderLayout());
+        startPanel.setBackground(new Color(53, 101, 77));
+        frame.add(startPanel);
+        
+        playGame.setFocusable(false);
+        playGame.setEnabled(true);
+        playPanel.add(playGame);
+        playPanel.add(closeGame);
+        playPanel.setBackground(new Color(53, 101, 77));
+        startPanel.add(playPanel, BorderLayout.SOUTH);
+        
+    }
+    //* Game Method
     public void startGame(){
         //! Deck started
         buildDeck();
