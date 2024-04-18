@@ -11,15 +11,18 @@ public class Blackjack {
         //! Card Variable
         String value;
         String type;
+        
         //! Card constructor
         Card(String value, String type){
             this.value = value;
             this.type = type;
         }
+
         //! Hàm chuyển đổi giá trị của deck về kiểu String
         public String toString(){
             return value + "-" + type;
         }
+        
         //! Hàm lấy giá trị của bài 
         public int getValue(){
             if("AJQK".contains(value)){ //* value from A, J, Q, K */
@@ -30,16 +33,16 @@ public class Blackjack {
             }
             return Integer.parseInt(value); //* value from 2 - 10 */
         }
+        
         //! Hàm kiểm tra lá bài có phải lá A hay không
         public boolean isAce(){
             return value == "A";
         }
-
+        
         //! Hàm lấy đường dẫn tương đối của ảnh
         public String getImagePath(){
             return "./cards/" + toString() + ".png";
         }
-
     }
 
     //! Khai báo các obj liên quan đến các thư viện ở đầu
@@ -69,6 +72,7 @@ public class Blackjack {
 
     //! Create frame using JFrame object
     JFrame frame = new JFrame("Play Blackjack");
+
     //! Panel Drawing
     JPanel startPanel = new JPanel() {
         @Override
@@ -146,21 +150,30 @@ public class Blackjack {
     JPanel playPanel = new JPanel();
     //! JButton objects
     JButton playGame = new JButton("Play");
-    JButton newGame = new JButton("New Game");
     JButton hitButton = new JButton("Hit");
     JButton stayButton = new JButton("Stay");
-    JButton closeGame = new JButton("Close");
     //! MP3 Player
-    Sound flip = new Sound();
-    Sound BGM = new Sound(); 
-    private AdvancedPlayer bgm ;
+    SoundManager flip = new SoundManager();
     private AdvancedPlayer player;
+
     //Constructor
     public Blackjack(){
         
+        JMenuBar menuBar = new JMenuBar();
+        
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem newGameMenuItem = new JMenuItem("New Game");
+        JMenuItem ExitMenuItem = new JMenuItem("Exit");
+        fileMenu.add(newGameMenuItem);
+        fileMenu.add(ExitMenuItem);
+        menuBar.add(fileMenu);
+
+        frame.setJMenuBar(menuBar);
+
         startFrame();
         
-        newGame.addActionListener(new ActionListener(){
+        //! Menu Game Listener
+        newGameMenuItem.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 flip.playSound(player, "./sounds/flipcard-91468.mp3");
                 
@@ -172,22 +185,24 @@ public class Blackjack {
                 gamePanel.repaint();
             }
         });
+        ExitMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
 
+                int ret = JOptionPane.showConfirmDialog(null, "Bạn muốn thoát game ?", "Thoát", JOptionPane.YES_NO_OPTION);
+                if(ret == JOptionPane.YES_OPTION){
+                    System.exit(0);
+                }
+            }
+        });
+        //! Start Game Listener
         playGame.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
                 startGame();
                 flip.playSound(player, "./sounds/flipcard-91468.mp3"); 
-                // bgmusic.playSound(player, "./sounds/background-music.mp3");
                 
                 startPanel.setVisible(false);
                 playGame.setVisible(false);
-
-                newGame.setFocusable(false);
-                newGame.setEnabled(false);
-                newGame.setBackground(Color.gray);
-                newGame.setForeground(Color.white);
-                buttonPanel.add(newGame);
 
                 hitButton.setFocusable(false);
                 hitButton.setBackground(Color.green);
@@ -199,10 +214,6 @@ public class Blackjack {
                 stayButton.setForeground(Color.white);
                 buttonPanel.add(stayButton);
 
-                closeGame.setFocusable(false);
-                closeGame.setEnabled(true);
-                buttonPanel.add(closeGame);
-
                 buttonPanel.setBackground(new Color(53, 101, 77));
                 frame.add(buttonPanel, BorderLayout.SOUTH);
                 
@@ -213,6 +224,7 @@ public class Blackjack {
                 frame.repaint();
             }
         });
+        //! In Game Listener
         hitButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 flip.playSound(player, "./sounds/flipcard-91468.mp3");
@@ -234,7 +246,6 @@ public class Blackjack {
                 flip.playSound(player, "./sounds/flipcard-91468.mp3");
                 hitButton.setEnabled(false);
                 stayButton.setEnabled(false);
-                newGame.setEnabled(true);
 
                 while(dealerSum < 17){
                     Card card = deck.remove(deck.size()-1);
@@ -247,30 +258,10 @@ public class Blackjack {
             }
         });
 
-        closeGame.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-
-                int ret = JOptionPane.showConfirmDialog(null, "Bạn muốn thoát game ?", "Thoát", JOptionPane.YES_NO_OPTION);
-                if(ret == JOptionPane.YES_OPTION){
-                    System.exit(0);
-                }
-            }
-        });
+        
 
         gamePanel.repaint();
     }
-
-    // private void playSound(String filePath){
-    //     try {
-    //         if (player != null) {
-    //             player.close();
-    //         }
-    //         player = new AdvancedPlayer(getClass().getResourceAsStream(filePath));
-    //         player.play();
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    // }
 
     public String MessageSend(String message, int player, int dealer){
         String msg = "";
@@ -311,7 +302,6 @@ public class Blackjack {
         playGame.setFocusable(false);
         playGame.setEnabled(true);
         playPanel.add(playGame);
-        playPanel.add(closeGame);
         playPanel.setBackground(new Color(53, 101, 77));
         startPanel.add(playPanel, BorderLayout.SOUTH);
         

@@ -5,7 +5,6 @@ import java.io.*;
 
 
 public class BackgroundMusic {
-
     private Player player;
     private String bgmFilePath;
 
