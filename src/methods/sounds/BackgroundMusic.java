@@ -1,3 +1,4 @@
+package methods.sounds;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
