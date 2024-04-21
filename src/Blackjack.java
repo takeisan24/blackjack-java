@@ -44,7 +44,7 @@ public class Blackjack {
         
         //! Hàm lấy đường dẫn tương đối của ảnh
         public String getImagePath(){
-            return "./cards/" + toString() + ".png";
+            return "./assets/cards/" + toString() + ".png";
         }
     }
 
@@ -83,8 +83,8 @@ public class Blackjack {
         public void paintComponent(Graphics g){
             super.paintComponent(g);
             try{
-                Image JackCard = new ImageIcon(getClass().getResource("./cards/J-D.png")).getImage();
-                Image AceCard = new ImageIcon(getClass().getResource("./cards/A-S.png")).getImage();
+                Image JackCard = new ImageIcon(getClass().getResource("./assets/cards/J-D.png")).getImage();
+                Image AceCard = new ImageIcon(getClass().getResource("./assets/cards/A-S.png")).getImage();
                 g.drawImage(AceCard, 360, 320, cardWidth, cardHeight, null );
                 g.drawImage(JackCard, 500, 320, cardWidth, cardHeight, null );
             }catch(Exception e){
@@ -103,7 +103,7 @@ public class Blackjack {
 
             try {
                 //! Draw hiddencard
-                Image hiddenCardImg = new ImageIcon(getClass().getResource("./cards/BACK.png")).getImage();
+                Image hiddenCardImg = new ImageIcon(getClass().getResource("./assets/cards/BACK.png")).getImage();
                 if(!stayButton.isEnabled()){
                     hiddenCardImg = new ImageIcon(
                     getClass().getResource(hiddenCard.getImagePath())).getImage();
@@ -163,8 +163,8 @@ public class Blackjack {
     JButton hitButton = new JButton("Hit");
     JButton stayButton = new JButton("Stay");
     //! MP3 Player
-    EffectSound flip = new EffectSound("D:\\blackjack-java\\src\\sounds\\flipcard-91468.mp3");
-    BackgroundMusic bgmMusic = new BackgroundMusic("D:\\blackjack-java\\src\\sounds\\background-music.mp3");
+    EffectSound flip = new EffectSound("D:\\blackjack-java\\src\\assets\\sounds\\flipcard-91468.mp3");
+    BackgroundMusic bgmMusic = new BackgroundMusic("D:\\blackjack-java\\src\\assets\\sounds\\background-music.mp3");
 
 
         
