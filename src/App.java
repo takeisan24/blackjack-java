@@ -7,7 +7,7 @@ public class App {
         Blackjack blackjack = new Blackjack();
         String playerName = PlayerNamePrompt.getPlayerName(null);
         if (playerName != null && !playerName.trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Have fun with Blackjack <3", "Welcome <3",1);
+                    JOptionPane.showMessageDialog(null, "Have fun with Blackjack, " + playerName, "Welcome <3",1);
                     System.out.println("Player: " + playerName);
                 }
     }
