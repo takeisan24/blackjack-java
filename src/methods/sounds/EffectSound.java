@@ -4,22 +4,6 @@ import javazoom.jl.player.Player;
 
 import java.io.*;
 public class EffectSound {
-//     private String filePath;
-//     public EffectSound(String filePath){
-//         this.filePath = filePath;
-        
-//     }
-//     public void playSound(){
-//         try {
-//             AdvancedPlayer p = new AdvancedPlayer(getClass().getResourceAsStream(filePath));
-//             p.play();
-//         } catch (JavaLayerException ex) {
-//             ex.printStackTrace();
-//         }
-//     }
-    
-
-
 
     private Player player;
     private String bgmFilePath;

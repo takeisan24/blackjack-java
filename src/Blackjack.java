@@ -75,7 +75,7 @@ public class Blackjack {
     public static final int cardHeight = 154;
 
     //! Create frame using JFrame object
-    JFrame frame = new JFrame("Play Blackjack");
+    JFrame frame = new JFrame("Blackjack");
 
     //! Panel Drawing
     JPanel startPanel = new JPanel() {
@@ -176,9 +176,9 @@ public class Blackjack {
         JMenu gameMenu = new JMenu("Game");
         JMenuItem newGameMenuItem = new JMenuItem("New Game");
         JMenuItem ExitMenuItem = new JMenuItem("Exit");
-        JCheckBoxMenuItem BackgroundMusic = new JCheckBoxMenuItem("Background music");
+        JCheckBoxMenuItem BackgroundMusic = new JCheckBoxMenuItem("Turn off BGM");
         BackgroundMusic.setSelected(false);
-        gameMenu.add(BackgroundMusic);
+
         gameMenu.add(BackgroundMusic);
         gameMenu.add(newGameMenuItem);  
         gameMenu.add(ExitMenuItem);
