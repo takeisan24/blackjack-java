@@ -3,10 +3,11 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
-import javazoom.jl.player.advanced.*;
 import methods.sounds.BackgroundMusic;
 import methods.sounds.EffectSound;
 import methods.utils.EndMessage;
+import methods.utils.PlayerNamePrompt;
+
 public class Blackjack {
     //! Card Class
     private class Card{
@@ -60,6 +61,7 @@ public class Blackjack {
     private int dealerAceCount;
 
     //! Player Card
+    String playerName = PlayerNamePrompt.getPlayerName(null);
     ArrayList<Card> playerHand;
     private int playerSum;
     private int playerAceCount;
@@ -93,6 +95,7 @@ public class Blackjack {
             g.drawString("Blackjack Game", 327, 259);
         }
     };
+
     JPanel gamePanel = new JPanel() {
         @Override
         public void paintComponent(Graphics g) {
@@ -122,7 +125,7 @@ public class Blackjack {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            
             //! Draw player's hand
             for(int i = 0; i < playerHand.size(); i++){
                 Card card = playerHand.get(i);
@@ -130,7 +133,8 @@ public class Blackjack {
                 g.drawImage(cardImg, 20 + (cardWidth + 5)*i, 320, cardWidth, cardHeight, null);
                 g.setFont(new Font("Arial", Font.PLAIN, 18));
                 g.setColor(Color.WHITE);
-                g.drawString("PLAYER:" + playerSum, 80, 499);
+                
+                g.drawString(playerName + ":" + playerSum, 80, 499);
             }
             
             if(!stayButton.isEnabled()){
@@ -144,6 +148,10 @@ public class Blackjack {
                 g.setFont(new Font("Arial", Font.PLAIN, 30));
                 g.setColor(Color.WHITE);
                 g.drawString(EndMessage.MessageSend(message, playerSum, dealerSum), 500, 240);
+
+                g.setFont(new Font("Arial", Font.PLAIN, 30));
+                g.setColor(Color.WHITE);
+                g.drawString("Score: " + EndMessage.playerScore, 700, 340);
             }
 
         }
@@ -157,47 +165,47 @@ public class Blackjack {
     //! MP3 Player
     EffectSound flip = new EffectSound("D:\\blackjack-java\\src\\sounds\\flipcard-91468.mp3");
     BackgroundMusic bgmMusic = new BackgroundMusic("D:\\blackjack-java\\src\\sounds\\background-music.mp3");
+
+
+        
     //Constructor
     public Blackjack(){
         
         JMenuBar menuBar = new JMenuBar();
         
-        JMenu fileMenu = new JMenu("File");
+        JMenu gameMenu = new JMenu("Game");
         JMenuItem newGameMenuItem = new JMenuItem("New Game");
         JMenuItem ExitMenuItem = new JMenuItem("Exit");
-        fileMenu.add(newGameMenuItem);
-        fileMenu.add(ExitMenuItem);
-        menuBar.add(fileMenu);
-
-        JMenu optionsMenu = new JMenu("Options");
-        JMenuItem turnOffMusic = new JMenuItem("Turn off BGM");
-        JMenuItem turnOnMusic = new JMenuItem("Turn on BGM");
-        optionsMenu.add(turnOffMusic);
-        optionsMenu.add(turnOnMusic);
-        menuBar.add(optionsMenu);
-
-
+        JCheckBoxMenuItem BackgroundMusic = new JCheckBoxMenuItem("Background music");
+        BackgroundMusic.setSelected(false);
+        gameMenu.add(BackgroundMusic);
+        gameMenu.add(BackgroundMusic);
+        gameMenu.add(newGameMenuItem);  
+        gameMenu.add(ExitMenuItem);
+        menuBar.add(gameMenu);
 
         frame.setJMenuBar(menuBar);
-
 
         startFrame();
         bgmMusic.play();
         //! Menu Game Listener
-        turnOffMusic.addActionListener(new ActionListener(){
+        BackgroundMusic.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+        BackgroundMusic.addActionListener(new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent e){
-                bgmMusic.stop();
+                JCheckBoxMenuItem menuItem = (JCheckBoxMenuItem) e.getSource();
+                boolean isSelected = menuItem.isSelected();
+                if(isSelected){
+                    bgmMusic.stop();
+                }else{
+                    bgmMusic.play();
+                }
             }
         });
-        turnOnMusic.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                bgmMusic.play();
-            }
-        });
+        newGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
         newGameMenuItem.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 flip.playSound();
-                
                 hitButton.setEnabled(true);
                 stayButton.setEnabled(true);
 
@@ -206,6 +214,7 @@ public class Blackjack {
                 gamePanel.repaint();
             }
         });
+        ExitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
         ExitMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
 
@@ -219,6 +228,7 @@ public class Blackjack {
         playGame.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
+                
                 startGame();
                 flip.playSound(); 
                 
@@ -278,7 +288,6 @@ public class Blackjack {
                 gamePanel.repaint();
             }
         });
-
         
 
         gamePanel.repaint();

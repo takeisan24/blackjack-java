@@ -1,6 +1,14 @@
+import javax.swing.JOptionPane;
+
+import methods.utils.PlayerNamePrompt;
+
 public class App {
     public static void main(String[] args) {
         Blackjack blackjack = new Blackjack();
-        System.out.println("The game is running, please wait for a second! Enjoy Blackjack <3");
+        String playerName = PlayerNamePrompt.getPlayerName(null);
+        if (playerName != null && !playerName.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Have fun with Blackjack <3", "Welcome <3",1);
+                    System.out.println("Player: " + playerName);
+                }
     }
 }
